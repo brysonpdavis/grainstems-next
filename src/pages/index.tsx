@@ -7,6 +7,7 @@ import { api } from "../utils/api";
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data: stems, status } = api.example.getAll.useQuery()
 
   return (
     <>
@@ -46,6 +47,14 @@ const Home: NextPage = () => {
           </div>
           <p className={styles.showcaseText}>
             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+          </p>
+          <p className={styles.showcaseText}>
+            {status === 'loading' && "loading stems..."}
+            {status === 'success' && stems.map((stem) => (
+              <div>
+                {stem.name} {'->'} {stem.description}
+              </div>
+            ))}
           </p>
         </div>
       </main>
