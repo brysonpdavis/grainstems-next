@@ -51,7 +51,7 @@ const Home: NextPage = () => {
           <p className={styles.showcaseText}>
             {status === 'loading' && "loading stems..."}
             {status === 'success' && stems.map((stem) => (
-              <div>
+              <div key={stem.name}>
                 {stem.name} {'->'} {stem.description}
               </div>
             ))}
