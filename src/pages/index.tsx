@@ -3,7 +3,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import AudioContainer from "../components/AudioContainer";
-import { App } from "../components/App";
+import { Grainstems } from "../components/Grainstems";
 
 
 const Home: NextPage = () => {
@@ -16,7 +16,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main className={styles.main}>
-        <AudioContainer children={App} />
+        <AudioContainer>
+          {Grainstems}
+        </AudioContainer>
       </main>
     </>
   );

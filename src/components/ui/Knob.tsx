@@ -1,12 +1,12 @@
-import React, { PointerEventHandler, useEffect, useState } from 'react'
-import { Properties } from 'csstype'
+import React, { type PointerEventHandler, useEffect, useState } from 'react'
+import { type Properties } from 'csstype'
 // import Tooltip from './Tooltip'
 
 type KnobProps = {
     label: string
     tooltip?: string
     startVal?: number
-    show?: (v: any) => string | number
+    show?: (v: number) => string | number
     units: string
     min?: number
     max?: number
@@ -16,14 +16,14 @@ type KnobProps = {
     diameter?: number
     color?: string
     lineColor?: string
-    onChange?: (v: number) => void
+    onChange: (v: number) => void
 }
 
 export const Knob: React.FC<KnobProps> = ({ 
     label, 
     tooltip: _, 
     startVal = 0, 
-    show = (v: any) => v, 
+    show = (v: number) => v, 
     units, 
     min = 0, 
     max = 100, 
@@ -33,7 +33,7 @@ export const Knob: React.FC<KnobProps> = ({
     diameter = 80, 
     color = '#555', 
     lineColor = '#c0f3fc', 
-    onChange = () => {}
+    onChange
 }) => {
     const [val, setVal] = useState(startVal)
 

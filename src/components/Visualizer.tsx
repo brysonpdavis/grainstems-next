@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Paper } from '@mui/material'
-import { AudioObject } from './AudioContainer'
+import { type AudioObject } from './AudioContainer'
 
 type VisualizerTypes = {
     audioObject: AudioObject
@@ -21,7 +21,7 @@ export const Visualizer: React.FC<VisualizerTypes> = ({ audioObject, frequencyBa
         if (!amplitudeValues.current) return
 
         for (let i = 0; i < frequencyBandArray.length; i++) {
-            let num = frequencyBandArray[i]
+            const num = frequencyBandArray[i]
             domElements[num!]!.style.backgroundColor = `rgba(192, 243, 252, ${(amplitudeValues.current[num!]! + 180) / 180})`
             domElements[num!]!.style.height = `${amplitudeValues.current[num!]! + 200}px`
         }

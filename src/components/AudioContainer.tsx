@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import {
-  ToneAudioBuffer,
+import { useState, useEffect} from 'react'
+import type {
   GrainPlayer,
   Filter,
   AmplitudeEnvelope,
   Gain,
-  FFT,
-  context,
-  now
+  FFT
 } from 'tone'
-import { setupTone, ToneComponents } from '../lib/setup-tone'
+import { ToneAudioBuffer, context, now } from 'tone'
+import { setupTone, type ToneComponents } from '../utils/tone'
 import { api } from "../utils/api";
 
 const { useQuery: useGetAllStemsQuery } = api.example.getAll
@@ -40,7 +38,8 @@ export class AudioObject implements AudioObject {
 
     this.startPlayer = () => {
       context.resume()
-      this.player.start(now())
+        .then(() => this.player.start(now()))
+        .catch(console.warn)
     }
 
     this.stopPlayer = () => {
@@ -52,11 +51,11 @@ export class AudioObject implements AudioObject {
       }
 
     this.resetGrainPlayer = (url: ToneAudioBufferTarget) => {
-      let newBuffer: ToneAudioBuffer = new ToneAudioBuffer(url, () => this.player.buffer = newBuffer)
+      const newBuffer: ToneAudioBuffer = new ToneAudioBuffer(url, () => this.player.buffer = newBuffer)
     }
 
     this.resetGrainPlayerAndSampleDuration = (url: ToneAudioBufferTarget, setSampleDuration: (duration: number) => void) => {
-      var newBuffer: ToneAudioBuffer = new ToneAudioBuffer(url, () => {
+      const newBuffer: ToneAudioBuffer = new ToneAudioBuffer(url, () => {
         this.player.buffer = newBuffer
         this.player.loopStart = 0
         this.player.loopEnd = this.player.buffer.duration
@@ -82,15 +81,15 @@ const AudioContainer: React.FC<{ children: React.FC<ChildProps> }> = ({ children
   const [playerLoaded, setPlayerLoaded] = useState(false)
   const [audioObject, setAudioObject] = useState<AudioObject>()
 
-  const thing = useGetAllStemsQuery()
+  const stemsQuery = useGetAllStemsQuery()
 
   useEffect(() => {
-    if (thing.status === 'success') {
+    if (stemsQuery.status === 'success') {
       console.log('starting...')
       const components = setupTone({
         onload: () => setPlayerLoaded(true),
         detune: 0,
-        url: thing.data.at(0)?.url,
+        url: stemsQuery.data.at(0)?.url,
         mute: false,
         loop: true,
         reverse: false,
@@ -101,7 +100,7 @@ const AudioContainer: React.FC<{ children: React.FC<ChildProps> }> = ({ children
       setAudioObject(new AudioObject(components))
     }
 
-  }, [thing.status])
+  }, [stemsQuery.status, stemsQuery.data])
 
   const frequencyBandArray = [...Array(64).keys()]
 

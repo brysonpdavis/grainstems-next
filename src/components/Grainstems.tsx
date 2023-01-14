@@ -4,7 +4,7 @@ import { Paper, Grid } from '@mui/material'
 import { type AudioObject } from './AudioContainer'
 import { Visualizer } from './Visualizer'
 import { Knob } from './ui/Knob'
-import { tooltips } from '../lib/tooltip-text'
+import { tooltips } from '../utils/constants/tooltip-text'
 
 type AppProps = {
     audioObject?: AudioObject
@@ -12,7 +12,7 @@ type AppProps = {
     isLoaded: boolean
 }
 
-export const App: React.FC<AppProps> = ({ audioObject, frequencyBandArray, isLoaded }) => {
+export const Grainstems: React.FC<AppProps> = ({ audioObject, frequencyBandArray, isLoaded }) => {
     const [uploadEnabled, setUploadEnabled] = useState(false)
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentlyPlaying, _setCurrentlyPlaying] = useState('ambient piano')
