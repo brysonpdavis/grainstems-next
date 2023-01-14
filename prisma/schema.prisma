@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Stem {
@@ -16,4 +15,12 @@ model Stem {
   createdAt   DateTime @default(now()) @map("created_at")
 
   @@map("stems")
+}
+
+model User {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
 }
