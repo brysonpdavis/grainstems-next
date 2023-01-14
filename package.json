@@ -11,6 +11,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.4",
     "@prisma/client": "^4.8.0",
     "@tanstack/react-query": "^4.20.0",
     "@trpc/client": "^10.8.1",
@@ -21,6 +24,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "1.9.1",
+    "tone": "14.7.77",
     "zod": "^3.20.2"
   },
   "devDependencies": {
@@ -29,6 +33,7 @@
     "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
+    "csstype": "^3.1.1",
     "eslint": "^8.30.0",
     "eslint-config-next": "13.1.1",
     "prisma": "^4.8.0",
