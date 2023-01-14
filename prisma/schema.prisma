@@ -16,11 +16,3 @@ model Stem {
 
   @@map("stems")
 }
-
-model User {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name      String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@map("users")
-}
