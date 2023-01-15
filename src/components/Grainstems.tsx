@@ -164,7 +164,7 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, frequencyBandArra
                                     tooltip={tooltips.tuning}
                                     // show={v => Math.floor(v / 10) / 10}
                                     // units={<>1&frasl;2 tones</>}
-                                    show={v => Math.floor(v / 120) / 10}
+                                    show={v => `${v < 0 ? '':  '+'}${Math.floor(v / 120) / 10}`}
                                     units={'octaves'}
                                     onChange={(v) => { audioObject.player.detune = v }}
                                     startVal={0}
