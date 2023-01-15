@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect, type FC} from 'react'
 import type {
   GrainPlayer,
   Filter,
@@ -75,7 +75,7 @@ type ChildProps = {
   isLoaded: boolean
 }
 
-const AudioContainer: React.FC<{ children: React.FC<ChildProps> }> = ({ children: child }) => {
+const AudioContainer: FC<{ children: FC<ChildProps> }> = ({ children: child }) => {
   const [playerLoaded, setPlayerLoaded] = useState(false)
   const [audioObject, setAudioObject] = useState<AudioObject>()
 

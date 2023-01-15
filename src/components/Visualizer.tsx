@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, type FC } from 'react'
 import { Paper } from '@mui/material'
 import { type AudioObject } from './AudioContainer'
 
@@ -8,7 +8,7 @@ type VisualizerTypes = {
     visible: boolean
 }
 
-export const Visualizer: React.FC<VisualizerTypes> = ({ audioObject, frequencyBandArray, visible }) => {
+export const Visualizer: FC<VisualizerTypes> = ({ audioObject, frequencyBandArray, visible }) => {
 
     const amplitudeValues = useRef<number[] | null>(null)
 
@@ -20,10 +20,17 @@ export const Visualizer: React.FC<VisualizerTypes> = ({ audioObject, frequencyBa
 
         if (!amplitudeValues.current) return
 
-        for (let i = 0; i < frequencyBandArray.length; i++) {
-            const num = frequencyBandArray[i]
-            domElements[num!]!.style.backgroundColor = `rgba(192, 243, 252, ${(amplitudeValues.current[num!]! + 180) / 180})`
-            domElements[num!]!.style.height = `${amplitudeValues.current[num!]! + 200}px`
+        for (const num of frequencyBandArray) {
+            const bandValue = amplitudeValues.current[num]!
+            const bandElement = domElements[num]!
+            // if (bandValue > 50) {
+                const fraction = Math.log10(200 + bandValue) - 1.5
+
+                bandElement.style.height = `${fraction * 210}px`
+                bandElement.style.opacity = `${(Math.log10(200 + bandValue) - 1.5)}`
+            // } else {
+            //     bandElement.style.opacity = '0'
+            // }
         }
     }
 
@@ -32,13 +39,9 @@ export const Visualizer: React.FC<VisualizerTypes> = ({ audioObject, frequencyBa
         adjustFreqBandStyle(amplitudeArray)
     }
 
-    const runSpectrum = () => {
-        getFrequencyData()
-        requestAnimationFrame(runSpectrum)
-    }
-
     const handleStartButtonClick = () => {
-        requestAnimationFrame(runSpectrum)
+        setInterval(() => requestAnimationFrame(getFrequencyData), 80)
+
     }
 
     handleStartButtonClick()
@@ -50,6 +53,7 @@ export const Visualizer: React.FC<VisualizerTypes> = ({ audioObject, frequencyBa
                     className={'frequencyBands'}
                     id={num.toString()}
                     key={idx}
+                    sx={{backgroundColor: 'rgb(192, 243, 252)'}}
                 />
             )}
         </div>

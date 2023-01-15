@@ -1,13 +1,8 @@
-import React, { type PointerEventHandler, useEffect, useState } from 'react'
+import React, { type PointerEventHandler, type FC, useEffect, useState } from 'react'
 import { type Properties } from 'csstype'
-// import Tooltip from './Tooltip'
 
-type KnobProps = {
-    label: string
-    tooltip?: string
+export interface KnobProps {
     startVal?: number
-    show?: (v: number) => string | number
-    units: string
     min?: number
     max?: number
     rotationRange?: number
@@ -19,12 +14,8 @@ type KnobProps = {
     onChange: (v: number) => void
 }
 
-export const Knob: React.FC<KnobProps> = ({ 
-    label, 
-    tooltip: _, 
+export const Knob: FC<KnobProps> = ({ 
     startVal = 0, 
-    show = (v: number) => v, 
-    units, 
     min = 0, 
     max = 100, 
     rotationRange = Math.PI * 2 * 0.9, 
@@ -41,15 +32,13 @@ export const Knob: React.FC<KnobProps> = ({
         setVal(startVal)
     }, [max, startVal])
 
+    useEffect(() => {
+        onChange(val)
+    }, [val]) 
+
     const valueRange = max - min
     const rotation = startRotationPosition + (val - min) / valueRange * rotationRange
     let startY: number, startValue: number;
-
-    const tdStyle: Properties = {
-        padding: '16px 0 16px 0',
-        minWidth: `${diameter * 2}px`,
-        position: 'relative'
-    }
 
     const knobStyle: Properties = {
         touchAction: 'none',
@@ -81,7 +70,6 @@ export const Knob: React.FC<KnobProps> = ({
     const pointerMove = ({clientY}: PointerEvent) => {
         const valueDiff = (max - min) * (clientY - startY) / pixelRange
         setVal(clamp(startValue - valueDiff, min, max))
-        onChange(clamp(startValue - valueDiff, min, max))
     }
 
     const pointerUp = () => {
@@ -90,12 +78,7 @@ export const Knob: React.FC<KnobProps> = ({
     }
 
     return (
-        <td style={tdStyle}>
-            {/* <Tooltip arrow title={tooltip} placement='top-start'> */}
-                <h3>{label}</h3>
-            {/* </Tooltip> */}
-            <h3> {show(val)} {units}</h3>
-            <div style={knobStyle} onPointerDown={pointerDown}>
+            <div style={knobStyle} onPointerDown={pointerDown} onDoubleClick={() => setVal(startVal)}>
                 <svg overflow='visible' width={diameter} height={diameter}>
                     <g>
                         <ellipse
@@ -121,6 +104,5 @@ export const Knob: React.FC<KnobProps> = ({
                     </g>
                 </svg>
             </div>
-        </td>
     )
 }
