@@ -86,9 +86,6 @@ export const Knob: FC<KnobProps> = ({
                             rx={diameter / 2}
                             cy={diameter / 2}
                             cx={diameter / 2}
-                            strokeOpacity={1}
-                            strokeWidth={0.5}
-                            stroke={lineColor}
                             fill={color}
                         />
                         <line
