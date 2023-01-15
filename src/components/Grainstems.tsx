@@ -7,7 +7,7 @@ import { type AudioObject } from './AudioContainer'
 import { Visualizer } from './Visualizer'
 import { KnobParameter } from './KnobParameter'
 import { tooltips } from '../utils/constants/tooltip-text'
-import { api } from "../utils/api";
+import { api } from '../utils/api'
 import { Tooltip } from './ui/Tooltip'
 
 const { useQuery: useGetAllStemsQuery } = api.example.getAll
@@ -70,7 +70,7 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, frequencyBandArra
 
     return (
         <>
-            <Paper elevation={4} className={'interface-container'} style={{ background: '#2D2D2D' }}>
+            <Paper elevation={4} className={'interface-container'} sx={{ background: '#2D2D2D' }}>
                 <div className={'interface'}>
                     <h2 className={"title"}>grainstems</h2>
                     <Grid container spacing={0}>
@@ -150,6 +150,16 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, frequencyBandArra
                                     max={10}
                                 />
                                 <KnobParameter
+                                    label={'sample speed'}
+                                    tooltip={tooltips.sampleSpeed}
+                                    show={v => Math.floor((v ** 2) * 100)}
+                                    units={'%'}
+                                    onChange={(v) => audioObject.player.playbackRate = v ** 2}
+                                    startVal={1}
+                                    min={0.1}
+                                    max={3}
+                                />
+                                <KnobParameter
                                     label={'tuning'}
                                     tooltip={tooltips.tuning}
                                     // show={v => Math.floor(v / 10) / 10}
@@ -161,21 +171,6 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, frequencyBandArra
                                     min={-3600}
                                     max={3600}
                                 />
-                                <td>
-                                    <Tooltip text={tooltips.reverse}>
-                                        <button
-                                            className={'reverse-button'}
-                                            style={reversed ? activeButtonStyle : undefined}
-                                            onClick={() => {
-                                                audioObject.setReverse()
-                                                setReversed(!reversed)
-                                            }
-                                            }
-                                        >
-                                            reverse
-                                        </button>
-                                    </Tooltip>
-                                </td>
                             </tr>
                             <tr>
                                 <KnobParameter
@@ -208,16 +203,21 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, frequencyBandArra
                                     min={5}
                                     max={14.28778}
                                 />
-                                <KnobParameter
-                                    label={'sample speed'}
-                                    tooltip={tooltips.sampleSpeed}
-                                    show={v => Math.floor((v ** 2) * 100)}
-                                    units={'%'}
-                                    onChange={(v) => audioObject.player.playbackRate = v ** 2}
-                                    startVal={1}
-                                    min={0.1}
-                                    max={3}
-                                />
+                                <td>
+                                    <Tooltip text={tooltips.reverse}>
+                                        <button
+                                            className={'reverse-button'}
+                                            style={reversed ? activeButtonStyle : undefined}
+                                            onClick={() => {
+                                                audioObject.setReverse()
+                                                setReversed(!reversed)
+                                            }
+                                            }
+                                        >
+                                            <h3>reverse</h3>
+                                        </button>
+                                    </Tooltip>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
