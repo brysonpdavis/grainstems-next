@@ -8,9 +8,6 @@ import type {
 } from 'tone'
 import { ToneAudioBuffer, context, now } from 'tone'
 import { setupTone, type ToneComponents } from '../utils/tone'
-import { api } from "../utils/api";
-
-const { useQuery: useGetAllStemsQuery } = api.example.getAll
 
 export class AudioObject implements AudioObject {
   player: GrainPlayer
@@ -18,7 +15,7 @@ export class AudioObject implements AudioObject {
   envelope: AmplitudeEnvelope
   gain: Gain
   fft: FFT
-  startPlayer: () => void
+  startPlayer: (onStart?: () => void) => void
   stopPlayer: () => void
   setReverse: () => void
   resetGrainPlayer: (url: ToneAudioBuffer) => void
@@ -36,9 +33,10 @@ export class AudioObject implements AudioObject {
     this.gain = components.gain
     this.fft = components.fft
 
-    this.startPlayer = () => {
+    this.startPlayer = (onStart) => {
       context.resume()
         .then(() => this.player.start(now()))
+        .then(() => onStart?.())
         .catch(console.warn)
     }
 
@@ -81,15 +79,12 @@ const AudioContainer: React.FC<{ children: React.FC<ChildProps> }> = ({ children
   const [playerLoaded, setPlayerLoaded] = useState(false)
   const [audioObject, setAudioObject] = useState<AudioObject>()
 
-  const stemsQuery = useGetAllStemsQuery()
-
   useEffect(() => {
-    if (stemsQuery.status === 'success') {
       console.log('starting...')
       const components = setupTone({
         onload: () => setPlayerLoaded(true),
         detune: 0,
-        url: stemsQuery.data.at(0)?.url,
+        url: "https://grainstems.s3.amazonaws.com/6219011-piano1.wav",
         mute: false,
         loop: true,
         reverse: false,
@@ -98,9 +93,7 @@ const AudioContainer: React.FC<{ children: React.FC<ChildProps> }> = ({ children
         playbackRate: 1,
       })  
       setAudioObject(new AudioObject(components))
-    }
-
-  }, [stemsQuery.status, stemsQuery.data])
+  }, [])
 
   const frequencyBandArray = [...Array(64).keys()]
 

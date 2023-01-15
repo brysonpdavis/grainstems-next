@@ -49,7 +49,6 @@ export const Knob: React.FC<KnobProps> = ({
         padding: '16px 0 16px 0',
         minWidth: `${diameter * 2}px`,
         position: 'relative'
-
     }
 
     const knobStyle: Properties = {
@@ -65,8 +64,7 @@ export const Knob: React.FC<KnobProps> = ({
         borderRadius: '50%',
         width: 'min-content',
         marginLeft: 'auto',
-        marginRight: 'auto',
-
+        marginRight: 'auto'
     }
 
     const clamp = (num: number, min: number, max: number) => {

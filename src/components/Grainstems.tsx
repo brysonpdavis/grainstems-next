@@ -5,6 +5,9 @@ import { type AudioObject } from './AudioContainer'
 import { Visualizer } from './Visualizer'
 import { Knob } from './ui/Knob'
 import { tooltips } from '../utils/constants/tooltip-text'
+import { api } from "../utils/api";
+
+const { useQuery: useGetAllStemsQuery } = api.example.getAll
 
 type AppProps = {
     audioObject?: AudioObject
@@ -12,27 +15,48 @@ type AppProps = {
     isLoaded: boolean
 }
 
+const activeButtonStyle = { borderColor: '#c0f3fc', boxShadow: '0px 0px 60px -5px' }
+
 export const Grainstems: React.FC<AppProps> = ({ audioObject, frequencyBandArray, isLoaded }) => {
     const [uploadEnabled, setUploadEnabled] = useState(false)
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentlyPlaying, _setCurrentlyPlaying] = useState('ambient piano')
-    const [sampleDuration, setSampleDuration] = useState(audioObject?.player.sampleTime)
+    const [sampleDuration, setSampleDuration] = useState(0)
     const [reversed, setReversed] = useState(false)
     const [showInfo, setShowInfo] = useState(false)
 
-    const activeButtonStyle = { borderColor: '#c0f3fc', boxShadow: '0px 0px 60px -5px' }
+    const stemsQuery = useGetAllStemsQuery(undefined, {refetchOnWindowFocus: false})
 
     useEffect(() => {
-        if (audioObject) {
-            setSampleDuration(audioObject.player.sampleTime)
-        }
-    }, [audioObject])
+        const defaultStem = stemsQuery.data?.find((stem) => stem.name === 'piano')
 
-    console.log('sample duration', sampleDuration)
+        if (audioObject && stemsQuery.status === 'success' && defaultStem) {
+            console.log('resetting.......')
+            audioObject.resetGrainPlayerAndSampleDuration(defaultStem.url, setSampleDuration)
+        }
+  }, [stemsQuery.status, stemsQuery.data, audioObject])
 
     if (!audioObject) {
         return <>{'L O A D I N G . . .'}</>
     }
+
+    const StartButton = 
+        <button 
+            disabled={!isLoaded} 
+            onClick={() => { audioObject.startPlayer(() => setIsPlaying(audioObject.player.state === 'started')) }}
+        >
+            start
+        </button>
+
+    const StopButton = 
+    <button 
+        onClick={() => { audioObject.stopPlayer(); setIsPlaying(false) }} 
+        style={activeButtonStyle}
+    >
+        stop
+    </button>
+
+
 
     return (
         <Paper elevation={4} className={'interface-container'} style={{ backgroundColor: '#383838' }}>
@@ -45,10 +69,8 @@ export const Grainstems: React.FC<AppProps> = ({ audioObject, frequencyBandArray
 
                             {
                                 !isPlaying
-                                    ?
-                                    <button disabled={!isLoaded} onClick={() => { audioObject.startPlayer(); setIsPlaying(audioObject.player.state === 'started') }}>start</button>
-                                    :
-                                    <button onClick={() => { audioObject.stopPlayer(); setIsPlaying(false) }} style={activeButtonStyle}>stop</button>
+                                    ? StartButton
+                                    : StopButton
                             }
                             <button onClick={() => setUploadEnabled(!uploadEnabled)} style={uploadEnabled ? activeButtonStyle : {}}>{!uploadEnabled ? "upload a sample" : "collapse"}</button>
                             {/* 
@@ -132,7 +154,7 @@ export const Grainstems: React.FC<AppProps> = ({ audioObject, frequencyBandArray
                             <Knob
                                 label={'loop start'}
                                 tooltip={tooltips.loopStart}
-                                show={v => Math.floor(v * 100000000) / 100}
+                                show={v => Math.floor(v * 100) / 100}
                                 units={'s'}
                                 onChange={(v) => { audioObject.player.loopStart = v }}
                                 startVal={0}
@@ -142,7 +164,7 @@ export const Grainstems: React.FC<AppProps> = ({ audioObject, frequencyBandArray
                             <Knob
                                 label={'loop end'}
                                 tooltip={tooltips.loopEnd}
-                                show={v => Math.floor(v * 100000000) / 100}
+                                show={v => Math.floor(v * 100) / 100}
                                 units={'s'}
                                 onChange={(v) => { audioObject.player.loopEnd = v }}
                                 startVal={sampleDuration}
