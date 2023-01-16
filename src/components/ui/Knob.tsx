@@ -65,6 +65,7 @@ export const Knob: FC<KnobProps> = ({
         startValue = val
         globalThis.addEventListener('pointermove', pointerMove)
         globalThis.addEventListener('mouseup', pointerUp)
+        globalThis.addEventListener('touchend', pointerUp)
     }
 
     const pointerMove = ({clientY}: PointerEvent) => {
@@ -75,6 +76,7 @@ export const Knob: FC<KnobProps> = ({
     const pointerUp = () => {
         globalThis.removeEventListener('pointermove', pointerMove)
         globalThis.removeEventListener('mouseup', pointerUp)
+        globalThis.removeEventListener('touchend', pointerUp)
     }
 
     return (
