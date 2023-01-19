@@ -8,7 +8,7 @@ import { env } from '../../../env/server.mjs'
 const s3 = new S3Client({
     credentials: {
         accessKeyId: env.AWS_COGNITO_ID,
-        secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+        secretAccessKey: env.AWS_SECRET,
     },
     region: 'us-east-1'
 })

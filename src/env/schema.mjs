@@ -9,7 +9,7 @@ export const serverSchema = z.object({
   DATABASE_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]),
   AWS_COGNITO_ID: z.string(),
-  AWS_SECRET_ACCESS_KEY: z.string(),
+  AWS_SECRET: z.string(),
   AWS_BUCKET: z.string()
 });
 
