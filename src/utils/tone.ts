@@ -11,7 +11,7 @@ export type ToneComponents = {
 }
 
 export const setupTone = (playerOptions: GrainPlayerOptions): ToneComponents => {
-    const fft = new FFT(128)
+    const fft = new FFT(256)
 
     const gain = new Gain(1)
 

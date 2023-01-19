@@ -6,7 +6,7 @@ type VisualizerTypes = {
     audioObject: AudioObject
 }
 
-const frequencyBandArray = [...Array(64).keys()]
+const frequencyBandArray = [...Array(32).keys()]
 
 export const Visualizer: FC<VisualizerTypes> = ({ audioObject }) => {
 
