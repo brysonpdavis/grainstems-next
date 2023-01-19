@@ -3,7 +3,7 @@ import { ChevronsLeft } from 'react-feather'
 import { Tooltip } from './ui/Tooltip'
 import { tooltips } from '../utils/constants/tooltip-text'
 import { type AudioObject } from '../utils/types'
-import { StateButton } from './StateButton'
+import { StateButton } from './ui/StateButton'
 
 type ReverseButtonProps = {
     audioObject: AudioObject

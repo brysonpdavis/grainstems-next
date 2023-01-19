@@ -6,7 +6,7 @@ import { type AudioObject } from '../utils/types'
 import { UploadForm } from './UploadForm'
 import { Parameters } from './Parameters'
 import {type ScreenMode, Screen} from './Screen'
-import { StateButton } from './StateButton'
+import { StateButton } from './ui/StateButton'
 import { electricBlue } from '../utils/constants/colors'
 
 type GrainstemsProps = {
@@ -28,7 +28,7 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
     const StartButton =
         <button
             disabled={!isLoaded}
-            className={`play-button ${isPlaying && 'active'}`}
+            className={`play-button ${isPlaying ? 'active' : ''}`}
             onClick={() => {
                 if (!isPlaying) {
                     audioObject.startPlayer(() => setIsPlaying(audioObject.player.state === 'started'))
