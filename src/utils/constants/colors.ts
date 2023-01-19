@@ -1,0 +1,1 @@
+export const electricBlue = '#c0f3fc'

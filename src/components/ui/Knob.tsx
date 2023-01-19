@@ -1,5 +1,6 @@
 import React, { type PointerEventHandler, type FC, useEffect, useState } from 'react'
 import { type Properties } from 'csstype'
+import { electricBlue } from '../../utils/constants/colors'
 
 export interface KnobProps {
     startVal?: number
@@ -23,7 +24,7 @@ export const Knob: FC<KnobProps> = ({
     startRotationPosition = -Math.PI * 0.9, 
     diameter = 80, 
     color = '#555', 
-    lineColor = '#c0f3fc', 
+    lineColor = electricBlue, 
     onChange
 }) => {
     const [val, setVal] = useState(startVal)
