@@ -1,8 +1,9 @@
 import React, { type FC, useState } from 'react'
+import { ChevronsLeft } from 'react-feather'
 import { Tooltip } from './ui/Tooltip'
 import { tooltips } from '../utils/constants/tooltip-text'
-import { activeButtonStyles } from '../styles/dynamic-css'
 import { type AudioObject } from '../utils/types'
+import { StateButton } from './StateButton'
 
 type ReverseButtonProps = {
     audioObject: AudioObject
@@ -12,17 +13,15 @@ export const ReverseButton: FC<ReverseButtonProps> = ({ audioObject }) => {
 
     const [reversed, setReversed] = useState(false)
 
-    return <Tooltip text={tooltips.reverse}>
-        <button
-            className={'reverse-button'}
-            style={reversed ? activeButtonStyles : undefined}
+    return <Tooltip text={tooltips.reverse}><div className='reverse-container'>
+        <StateButton
+            active={reversed}
             onClick={() => {
                 audioObject.setReverse()
                 setReversed(r => !r)
             }}
-        >
-            <h3>reverse</h3>
-        </button>
+            Icon={ChevronsLeft}
+        /></div>
     </Tooltip>
 
 }

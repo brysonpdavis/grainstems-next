@@ -5,11 +5,13 @@ import { activeButtonStyles } from '../styles/dynamic-css'
 type StateButtonProps = {
     active: boolean
     onClick: () => void
-    Icon: Icon
+    Icon?: Icon
+    text?: string
 }
 
-export const StateButton: FC<StateButtonProps> = ({active, onClick, Icon}) => (
-    <button onClick={onClick} className='action-button' style={active ? activeButtonStyles : {}}>
-        <Icon />
+export const StateButton: FC<StateButtonProps> = ({active, onClick, Icon, text}) => (
+    <button onClick={onClick} className={`action-button ${active && 'active'}`} style={active ? activeButtonStyles : {}}>
+        {Icon && <Icon />}
+        {text && text}
     </button>
 )

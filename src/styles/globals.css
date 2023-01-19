@@ -60,8 +60,7 @@ p {
 }
 
 button {
-  color: var(--electric-blue);
-  text-shadow: 0px 0px 10px var(--electric-blue-shadow);
+  color: black;
   background: #666;
   padding: 10px;
   margin: 4px;
@@ -175,7 +174,7 @@ li {
 
 .parameter-label-container {
   border-radius: 4px;
-  padding: 8px; 
+  padding: 8px;
   width: fit-content;
   height: fit-content;
 
@@ -218,7 +217,15 @@ li {
   width: auto;
 }
 
+.active{
+  color: var(--electric-blue);
+  border-color: var(--electric-blue);
+  box-shadow: 0px 0px 60px -5px;
+  text-shadow: 0px 0px 10px var(--electric-blue-shadow);
+}
+
 .stem-button {
+  color: var(--electric-blue);
   margin: 0;
   flex: 0 0 calc(24% - 0.5rem);
   aspect-ratio: 1.75;
@@ -237,6 +244,7 @@ li {
 }
 
 .stem-buttons-container {
+  color: var(--electric-blue);
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
@@ -275,4 +283,10 @@ li {
 .page-button {
   aspect-ratio: 1;
   padding: 0;
+}
+
+.reverse-container {
+  display: flex;
+  justify-content: center;
+  
 }

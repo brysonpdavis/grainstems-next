@@ -1,13 +1,12 @@
 import React, { useState, type FC } from 'react'
 import { Paper, Grid, Dialog, DialogContent } from '@mui/material'
-import { Info, Play, Upload, Pause, Mic, BarChart2, Music } from 'react-feather'
+import { Info, Play, Upload, Pause, BarChart2, Music } from 'react-feather'
 
 import { type AudioObject } from '../utils/types'
 import { UploadForm } from './UploadForm'
 import { Parameters } from './Parameters'
 import {type ScreenMode, Screen} from './Screen'
 import { StateButton } from './StateButton'
-import { activeButtonStyles } from '../styles/dynamic-css'
 import { electricBlue } from '../utils/constants/colors'
 
 type GrainstemsProps = {
@@ -29,8 +28,7 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
     const StartButton =
         <button
             disabled={!isLoaded}
-            className='play-button'
-            style={isPlaying ? activeButtonStyles : undefined}
+            className={`play-button ${isPlaying && 'active'}`}
             onClick={() => {
                 if (!isPlaying) {
                     audioObject.startPlayer(() => setIsPlaying(audioObject.player.state === 'started'))
@@ -40,8 +38,8 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
                 }
             }}
         >
-            <Play fill={isPlaying ? electricBlue : 'none'} />
-            <Pause fill={!isPlaying ? electricBlue : 'none'} />
+            <Play fill={isPlaying ? electricBlue : 'black'} />
+            <Pause fill={isPlaying ? electricBlue : 'black'} />
         </button>
 
     const InfoButton = 
@@ -50,8 +48,8 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
     const UploadButton =
         <StateButton onClick={() => setUploadEnabled(true)} active={uploadEnabled} Icon={Upload} />
 
-    const RecordButton =
-        <StateButton onClick={() => setScreenMode('record')} active={screenMode === 'record'} Icon={Mic} />
+    // const RecordButton =
+    //     <StateButton onClick={() => setScreenMode('record')} active={screenMode === 'record'} Icon={Mic} />
 
     const VisualizerButton =
         <StateButton onClick={() => setScreenMode('visualizer')} active={screenMode === 'visualizer'} Icon={BarChart2} />
