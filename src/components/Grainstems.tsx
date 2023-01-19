@@ -73,7 +73,7 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
                                     {InfoButton}
                                     {VisualizerButton}
                                     {ChooseSampleModeButton}
-                                    {RecordButton}
+                                    {/* {RecordButton} */}
                                     {UploadButton}                                    
                                 </div>
                             </div>

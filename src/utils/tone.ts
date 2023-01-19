@@ -1,4 +1,5 @@
 import { Gain, FFT, Filter, AmplitudeEnvelope, GrainPlayer, Destination } from 'tone'
+import { NUM_OF_BARS } from './constants/visualizer'
   
  type GrainPlayerOptions = ConstructorParameters<typeof GrainPlayer>[number]
 
@@ -11,7 +12,7 @@ export type ToneComponents = {
 }
 
 export const setupTone = (playerOptions: GrainPlayerOptions): ToneComponents => {
-    const fft = new FFT(256)
+    const fft = new FFT(8192 / NUM_OF_BARS)
 
     const gain = new Gain(1)
 

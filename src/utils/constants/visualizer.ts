@@ -1,0 +1,1 @@
+export const NUM_OF_BARS = 32 // must be a power of 2

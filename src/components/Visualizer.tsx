@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, type FC } from 'react'
 import { Paper } from '@mui/material'
 import { type AudioObject } from '../utils/types'
+import { NUM_OF_BARS } from '../utils/constants/visualizer'
 
 type VisualizerTypes = {
     audioObject: AudioObject
 }
 
-const frequencyBandArray = [...Array(32).keys()]
+const frequencyBandArray = [...Array(NUM_OF_BARS).keys()]
 
 export const Visualizer: FC<VisualizerTypes> = ({ audioObject }) => {
 
