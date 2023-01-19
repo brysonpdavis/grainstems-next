@@ -1,7 +1,6 @@
-import React, { type FC, useState, useEffect } from 'react'
+import React, { type FC, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { type Stem } from '@prisma/client'
-import { api } from '../utils/api'
 
 type StemsProps = {
     onStemClick: (s: Stem) => void

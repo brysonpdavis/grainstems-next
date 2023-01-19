@@ -17,6 +17,7 @@ type ScreenProps = {
 }
 
 export const Screen: FC<ScreenProps> = ({ screenMode, audioObject, currentlyPlaying, setCurrentlyPlaying, setSampleDuration}) => {
+    
     const onStemClick = (stem: Stem) => {
         setCurrentlyPlaying(stem.name)
         audioObject.resetGrainPlayerAndSampleDuration(stem.url, setSampleDuration)
