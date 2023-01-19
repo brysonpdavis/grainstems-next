@@ -38,7 +38,7 @@ export const UploadForm: React.FC = () => {
             })
             .then(({ key, bucket }) => insertStem.mutateAsync({ bucket, key, name: uploadName }))
             .then(() => setUploadStage('after'))
-            .catch(err => console.error(err))
+            .catch(err => {setUploadStage('error'); console.error(err)})
     }
 
     if (uploadStage === 'during') {
