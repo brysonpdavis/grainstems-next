@@ -17,7 +17,7 @@ const AudioContainer: FC<{ children: FC<ChildProps> }> = ({ children: child }) =
       const components = setupTone({
         onload: () => setPlayerLoaded(true),
         detune: 0,
-        url: "https://grainstems-dev.s3.amazonaws.com/bison.wav",
+        url: 'https://grainstems-dev.s3.amazonaws.com/6296899-silence.wav',
         mute: false,
         loop: true,
         reverse: false,

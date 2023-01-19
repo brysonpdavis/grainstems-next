@@ -4,6 +4,7 @@ import { type AudioObject } from '../utils/types'
 import { Visualizer } from './Visualizer'
 import { Stems } from './Stems'
 import { type Stem } from '@prisma/client'
+import { api } from '../utils/api'
 
 export type ScreenMode = 'info' | 'visualizer' | 'stems' | 'record'
 
@@ -16,6 +17,18 @@ type ScreenProps = {
 }
 
 export const Screen: FC<ScreenProps> = ({ screenMode, audioObject, currentlyPlaying, setCurrentlyPlaying, setSampleDuration}) => {
+    const onStemClick = (stem: Stem) => {
+        setCurrentlyPlaying(stem.name)
+        audioObject.resetGrainPlayerAndSampleDuration(stem.url, setSampleDuration)
+    }
+
+    const { data: stems } = api.stems.getAll
+    .useQuery(undefined, {
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        onSuccess: (s) => onStemClick(s[0]!)
+    })
+
     return (
     <Grid item xs={8} className={'screen main-screen'}>
         {screenMode === 'info'
@@ -47,10 +60,7 @@ export const Screen: FC<ScreenProps> = ({ screenMode, audioObject, currentlyPlay
             screenMode === 'stems'
             && <>
                 <p className={'screen-text'}>current sample: {currentlyPlaying}</p>
-                <Stems onStemClick={(stem: Stem) => {
-                    setCurrentlyPlaying(stem.name)
-                    audioObject.resetGrainPlayerAndSampleDuration(stem.url, setSampleDuration)
-                }} />
+                <Stems {...{stems, onStemClick}} />
             </>
         }
     </Grid>

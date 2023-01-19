@@ -17,7 +17,7 @@ type GrainstemsProps = {
 
 export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
     const [isPlaying, setIsPlaying] = useState(false)
-    const [currentlyPlaying, setCurrentlyPlaying] = useState('bison call')
+    const [currentlyPlaying, setCurrentlyPlaying] = useState('-')
     const [screenMode, setScreenMode] = useState<ScreenMode>('visualizer')
     const [uploadEnabled, setUploadEnabled] = useState(false)
     const [sampleDuration, setSampleDuration] = useState(0)
