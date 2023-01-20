@@ -1,6 +1,18 @@
 import { z } from "zod";
-
+import { Stem } from "@prisma/client";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+
+const sortStemsByPriority = (a: Stem, b: Stem) => {
+  if (!(a.priority || b.priority)) {
+    return a.createdAt.valueOf() - b.createdAt.valueOf()
+  }
+
+  if (!b.priority) return -1
+
+  if (!a.priority) return 1
+
+  return b.priority - a.priority
+}
 
 export const stems = createTRPCRouter({
   getSome: publicProcedure
@@ -12,8 +24,8 @@ export const stems = createTRPCRouter({
         orderBy: { createdAt: 'asc' }
       })
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.stem.findMany();
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    return (await ctx.prisma.stem.findMany()).sort(sortStemsByPriority)
   }),
   insertUpload: publicProcedure
     .input(z.object({ bucket: z.string(), key: z.string(), name: z.string(), description: z.string().optional()}))

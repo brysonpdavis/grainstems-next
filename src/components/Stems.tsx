@@ -1,6 +1,7 @@
 import React, { type FC, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { type Stem } from '@prisma/client'
+import { modulo } from '../utils/functions'
 
 type StemsProps = {
     onStemClick: (s: Stem) => void
@@ -22,20 +23,20 @@ export const Stems: FC<StemsProps> = ({ onStemClick, stems }) => {
                 <div>
                     <button
                         className='stem-button page-button'
-                        onClick={() => setPage(prev => (prev - 1) % pages)}
+                        onClick={() => setPage(prev => modulo(prev - 1, pages))}
                     >
                         <ChevronLeft />
                     </button>
                     <button 
                         className='stem-button page-button'
-                        onClick={() => setPage(prev => (prev + 1) % pages)}
+                        onClick={() => setPage(prev => modulo(prev + 1, pages))}
                     >
                         <ChevronRight />
                     </button>
                 </div>
             </div>
             <div className='stem-buttons-container'>
-                {stems && stems?.map((stem, idx) => {
+                {stems && stems.map((stem, idx) => {
                     if (min <= idx && idx < min + PAGE_SIZE) {
                         return <button className='stem-button' key={stem.id} onClick={() => onStemClick(stem)}>
                             {stem.name}

@@ -46,7 +46,7 @@ export const Parameters: FC<ParamatersProps> = ({ audioObject, sampleDuration })
                 <KnobParameter
                     label={'tuning'}
                     tooltip={tooltips.tuning}
-                    show={v => Math.floor(v / 10) / 10}
+                    show={v => `${v < 0 ? '' : '+'}${Math.floor(v / 10) / 10}`}
                     units='semitones'
                     // show={v => `${v < 0 ? '' : '+'}${Math.floor(v / 120) / 10}`}
                     // units={'octaves'}
