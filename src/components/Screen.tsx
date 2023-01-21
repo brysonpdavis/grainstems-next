@@ -1,5 +1,4 @@
 import React, { type FC } from 'react'
-import { Grid } from '@mui/material'
 import { type AudioObject } from '../utils/types'
 import { Visualizer } from './Visualizer'
 import { Stems } from './Stems'
@@ -16,25 +15,29 @@ type ScreenProps = {
     setSampleDuration: (d: number) => void
 }
 
-export const Screen: FC<ScreenProps> = ({ screenMode, audioObject, currentlyPlaying, setCurrentlyPlaying, setSampleDuration}) => {
-    
+export const Screen: FC<ScreenProps> = ({
+    screenMode,
+    audioObject,
+    currentlyPlaying,
+    setCurrentlyPlaying,
+    setSampleDuration
+}) => {
+
     const onStemClick = (stem: Stem) => {
         setCurrentlyPlaying(stem.name)
         audioObject.resetGrainPlayerAndSampleDuration(stem.url, setSampleDuration)
     }
 
     const { data: stems } = api.stems.getAll
-    .useQuery(undefined, {
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
-        onSuccess: (s) => onStemClick(s[0]!)
-    })
+        .useQuery(undefined, {
+            refetchOnReconnect: false,
+            refetchOnWindowFocus: false,
+            onSuccess: (s) => onStemClick(s[0]!)
+        })
 
-    return (
-    <Grid item xs={8} className={'screen main-screen'}>
-        {screenMode === 'info'
-            &&
-            <>
+    switch (screenMode) {
+        case 'info': {
+            return (<div>
                 <p className={'screen-text'}>welcome to grainstems!</p>
                 <p className={'screen-text'}>
                     grainstems is a granular synthesizer, meaning it manipulates audio samples into interesting new sounds.
@@ -44,26 +47,23 @@ export const Screen: FC<ScreenProps> = ({ screenMode, audioObject, currentlyPlay
                     feel free to upload one for others to use.
                     have fun experimenting!
                 </p>
-            </>
+            </div>)
         }
-        {screenMode === 'visualizer'
-            && <>
+        case 'record': {
+            return <p className='screen-text'>record + export functionaltiy on the way</p>
+        }
+        case 'visualizer': {
+            return (<div>
                 <p className={'screen-text'}>current sample:</p>
                 <p className={'screen-text'}>{currentlyPlaying}</p>
                 <Visualizer audioObject={audioObject} />
-            </>
+            </div>)
         }
-        {
-            screenMode === 'record'
-            && (<p className='screen-text'>record + export functionaltiy on the way</p>)
-        }
-        {
-            screenMode === 'stems'
-            && <>
+        case 'stems': {
+            return (<div>
                 <p className={'screen-text'}>current sample: {currentlyPlaying}</p>
-                <Stems {...{stems, onStemClick}} />
-            </>
+                <Stems {...{ stems, onStemClick }} />
+            </div>)
         }
-    </Grid>
-
-)}
+    }
+}

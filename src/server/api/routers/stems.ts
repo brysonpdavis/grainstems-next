@@ -17,12 +17,13 @@ const sortStemsByPriority = (a: Stem, b: Stem) => {
 export const stems = createTRPCRouter({
   getSome: publicProcedure
     .input(z.object({ take: z.number(), offset: z.number() }))
-    .query(({ input: { take, offset }, ctx }) => {
-      return ctx.prisma.stem.findMany({
+    .query(async ({ input: { take, offset }, ctx }) => {
+      const stems = await ctx.prisma.stem.findMany({
         take,
         skip: offset,
         orderBy: { createdAt: 'asc' }
       })
+      return stems.sort(sortStemsByPriority)
     }),
   getAll: publicProcedure.query(async ({ ctx }) => {
     return (await ctx.prisma.stem.findMany()).sort(sortStemsByPriority)
