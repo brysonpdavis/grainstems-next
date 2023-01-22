@@ -4,13 +4,14 @@ import { type Stem } from '@prisma/client'
 import { modulo } from '../utils/functions'
 
 type StemsProps = {
-    onStemClick: (s: Stem) => void
     stems?: Stem[] 
+    onStemSelect: (s: Stem) => void
+    currentlyPlaying: string
 }
 
 const PAGE_SIZE = 12
 
-export const Stems: FC<StemsProps> = ({ onStemClick, stems }) => {
+export const StemSelect: FC<StemsProps> = ({ stems, onStemSelect, currentlyPlaying }) => {
     const [page, setPage] = useState(0)
 
     const pages = Math.ceil((stems?.length || 0) / PAGE_SIZE)
@@ -38,9 +39,15 @@ export const Stems: FC<StemsProps> = ({ onStemClick, stems }) => {
             <div className='stem-buttons-container'>
                 {stems && stems.map((stem, idx) => {
                     if (min <= idx && idx < min + PAGE_SIZE) {
-                        return <button className='stem-button' key={stem.id} onClick={() => onStemClick(stem)}>
-                            {stem.name}
-                        </button>
+                        return (
+                            <button 
+                                className={`stem-button ${stem.name === currentlyPlaying && 'stem-button-active'}`} 
+                                key={stem.id} 
+                                onClick={() => onStemSelect(stem)}
+                            >
+                                {stem.name}
+                            </button>
+                        )
                     }
                 }
                 )}

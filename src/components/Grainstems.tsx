@@ -8,6 +8,8 @@ import { Parameters } from './Parameters'
 import { type ScreenMode, Screen } from './Screen'
 import { StateButton } from './ui/StateButton'
 import { electricBlue } from '../utils/constants/colors'
+import { api } from '../utils/api'
+import {type Stem} from '@prisma/client'
 
 type GrainstemsProps = {
     audioObject?: AudioObject
@@ -21,7 +23,20 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
     const [uploadEnabled, setUploadEnabled] = useState(false)
     const [sampleDuration, setSampleDuration] = useState(0)
 
-    if (!audioObject) {
+    const onStemSelect = (stem: Stem) => {
+        setCurrentlyPlaying(stem.name)
+        audioObject?.resetGrainPlayerAndSampleDuration(stem.url, setSampleDuration)
+    }
+
+
+    const { data: stems } = api.stems.getAll
+    .useQuery(undefined, {
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        onSuccess: (s) => onStemSelect(s[0]!)
+    })
+
+    if (!audioObject || !stems) {
         return <p>{'L O A D I N G . . .'}</p>
     }
 
@@ -81,9 +96,10 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
                                 {...{
                                     audioObject,
                                     screenMode,
-                                    currentlyPlaying,
-                                    setCurrentlyPlaying,
-                                    setSampleDuration
+                                    setSampleDuration,
+                                    stems,
+                                    onStemSelect,
+                                    currentlyPlaying
                                 }} />
                         </Grid>
                     </Grid>
@@ -93,7 +109,7 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
             </Paper>
             <Dialog open={uploadEnabled} onClose={() => setUploadEnabled(false)}>
                 <DialogContent sx={{ background: 'black' }}>
-                    <UploadForm />
+                    <UploadForm stems={stems} />
                 </DialogContent>
             </Dialog>
         </>

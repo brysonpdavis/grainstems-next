@@ -1,39 +1,27 @@
 import React, { type FC } from 'react'
-import { type AudioObject } from '../utils/types'
+import type { AudioObject } from '../utils/types'
 import { Visualizer } from './Visualizer'
-import { Stems } from './Stems'
+import { StemSelect } from './Stems'
 import { type Stem } from '@prisma/client'
-import { api } from '../utils/api'
 
 export type ScreenMode = 'info' | 'visualizer' | 'stems' | 'record'
 
 type ScreenProps = {
     screenMode: ScreenMode
     audioObject: AudioObject
+    stems?: Stem[]
     currentlyPlaying: string
-    setCurrentlyPlaying: (s: string) => void
     setSampleDuration: (d: number) => void
+    onStemSelect: (stem: Stem) => void
 }
 
 export const Screen: FC<ScreenProps> = ({
     screenMode,
     audioObject,
+    stems,
     currentlyPlaying,
-    setCurrentlyPlaying,
-    setSampleDuration
+    onStemSelect
 }) => {
-
-    const onStemClick = (stem: Stem) => {
-        setCurrentlyPlaying(stem.name)
-        audioObject.resetGrainPlayerAndSampleDuration(stem.url, setSampleDuration)
-    }
-
-    const { data: stems } = api.stems.getAll
-        .useQuery(undefined, {
-            refetchOnReconnect: false,
-            refetchOnWindowFocus: false,
-            onSuccess: (s) => onStemClick(s[0]!)
-        })
 
     switch (screenMode) {
         case 'info': {
@@ -53,7 +41,7 @@ export const Screen: FC<ScreenProps> = ({
             return <p className='screen-text'>record + export functionaltiy on the way</p>
         }
         case 'visualizer': {
-            return (<div>
+            return (<div className='height-full'>
                 <p className={'screen-text'}>current sample:</p>
                 <p className={'screen-text'}>{currentlyPlaying}</p>
                 <Visualizer audioObject={audioObject} />
@@ -62,7 +50,7 @@ export const Screen: FC<ScreenProps> = ({
         case 'stems': {
             return (<div>
                 <p className={'screen-text'}>current sample: {currentlyPlaying}</p>
-                <Stems {...{ stems, onStemClick }} />
+                <StemSelect {...{ stems, onStemSelect, currentlyPlaying }} />
             </div>)
         }
     }

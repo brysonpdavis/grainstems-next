@@ -10,7 +10,7 @@ import { ToneAudioBuffer, context, now } from 'tone'
 import { type ToneComponents } from './tone'
 
 export type StateObject<T> = {
-    set: SetStateAction<T>
+    set: (state: SetStateAction<T>) => void
     get: T
 }
 

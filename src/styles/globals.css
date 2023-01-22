@@ -243,6 +243,11 @@ li {
   color: black;
 }
 
+.stem-button-active {
+  background-color: var(--electric-blue);
+  color: black;
+} 
+
 .stem-buttons-container {
   color: var(--electric-blue);
   display: flex;
@@ -258,6 +263,10 @@ li {
 
 .mr {
   margin-right: 2rem;
+}
+
+.height-full {
+  height: 100%;
 }
 
 .upload-box {

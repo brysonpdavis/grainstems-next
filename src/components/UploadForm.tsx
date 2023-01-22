@@ -1,8 +1,9 @@
 import React, { type FormEvent, useState } from 'react'
+import type { Stem } from '@prisma/client'
 import { api } from '../utils/api'
 
 
-export const UploadForm: React.FC = () => {
+export const UploadForm: React.FC<{stems?: Stem[]}> = ({stems}) => {
     type UploadStage = "before" | "during" | "after" | "error"
 
     const [uploadStage, setUploadStage] = useState<UploadStage>("before")
@@ -14,9 +15,14 @@ export const UploadForm: React.FC = () => {
     const insertStem = api.stems.insertUpload.useMutation()
 
     const upload = (event: FormEvent<HTMLFormElement>) => {
-        setUploadStage('during')
-
         event.preventDefault()
+ 
+        if (stems?.find(stem => uploadName === stem.name)) {
+            window.alert('please choose a unique name for your sample')
+            return
+        }
+
+        setUploadStage('during')
 
         const formData = new FormData(event.currentTarget)
         const file = formData.get('file') as File

@@ -1,6 +1,6 @@
 import React, {type FC} from 'react'
 import { type Icon } from 'react-feather'
-import { activeButtonStyles } from '../../styles/dynamic-css'
+import { activeButtonStyles } from '../../styles/dynamic-styles'
 
 type StateButtonProps = {
     active: boolean

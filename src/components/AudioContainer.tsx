@@ -13,7 +13,7 @@ const AudioContainer: FC<{ children: FC<ChildProps> }> = ({ children: child }) =
   const [audioObject, setAudioObject] = useState<AudioObject>()
 
   useEffect(() => {
-      console.log('starting...')
+      console.log('starting audio...')
       const components = setupTone({
         onload: () => setPlayerLoaded(true),
         detune: 0,
