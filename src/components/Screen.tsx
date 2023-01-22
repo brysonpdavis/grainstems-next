@@ -1,7 +1,7 @@
 import React, { type FC } from 'react'
 import type { AudioObject } from '../utils/types'
 import { Visualizer } from './Visualizer'
-import { StemSelect } from './Stems'
+import { StemSelect } from './StemSelect'
 import { type Stem } from '@prisma/client'
 
 export type ScreenMode = 'info' | 'visualizer' | 'stems' | 'record'

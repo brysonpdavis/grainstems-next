@@ -41,7 +41,7 @@ export const StemSelect: FC<StemsProps> = ({ stems, onStemSelect, currentlyPlayi
                     if (min <= idx && idx < min + PAGE_SIZE) {
                         return (
                             <button 
-                                className={`stem-button ${stem.name === currentlyPlaying && 'stem-button-active'}`} 
+                                className={`stem-button ${stem.name === currentlyPlaying ? 'stem-button-active' : ''}`} 
                                 key={stem.id} 
                                 onClick={() => onStemSelect(stem)}
                             >
