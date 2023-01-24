@@ -26,6 +26,7 @@ html {
 
 body {
   background-image: linear-gradient(to bottom, #282828, black);
+  background-attachment: fixed;
   user-select: none;
   margin: auto;
   width: fit-content;
