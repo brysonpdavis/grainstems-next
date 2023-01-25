@@ -15,16 +15,16 @@ export interface KnobProps {
     onChange: (v: number) => void
 }
 
-export const Knob: FC<KnobProps> = ({ 
-    startVal = 0, 
-    min = 0, 
-    max = 100, 
-    rotationRange = Math.PI * 2 * 0.9, 
-    pixelRange = 250, 
-    startRotationPosition = -Math.PI * 0.9, 
-    diameter = 80, 
-    color = '#555', 
-    lineColor = electricBlue, 
+export const Knob: FC<KnobProps> = ({
+    startVal = 0,
+    min = 0,
+    max = 100,
+    rotationRange = Math.PI * 2 * 0.9,
+    pixelRange = 250,
+    startRotationPosition = -Math.PI * 0.9,
+    diameter = 80,
+    color = '#555',
+    lineColor = electricBlue,
     onChange
 }) => {
     const [val, setVal] = useState(startVal)
@@ -35,11 +35,20 @@ export const Knob: FC<KnobProps> = ({
 
     useEffect(() => {
         onChange(val)
-    }, [val]) 
+    }, [val])
 
     const valueRange = max - min
     const rotation = startRotationPosition + (val - min) / valueRange * rotationRange
     let startY: number, startValue: number;
+
+    const knobContainerStyle: Properties = {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        height: 'fit-content',
+        width: 'fit-content',
+        boxShadow: `5px 5px 10px`,
+        borderRadius: '100rem'
+    }
 
     const knobStyle: Properties = {
         touchAction: 'none',
@@ -50,18 +59,15 @@ export const Knob: FC<KnobProps> = ({
         transform: `rotate(calc(${rotation} * 1rad))`,
         transformOrigin: '50% 50%',
         overflow: 'visible',
-        // boxShadow: `0 0 60px -20px ${lineColor}`,
         borderRadius: '50%',
-        width: 'min-content',
-        marginLeft: 'auto',
-        marginRight: 'auto'
+        width: 'min-content'
     }
 
     const clamp = (num: number, min: number, max: number) => {
         return Math.max(min, Math.min(num, max))
     }
 
-    const pointerDown: PointerEventHandler = ({clientY}) => {
+    const pointerDown: PointerEventHandler = ({ clientY }) => {
         startY = clientY
         startValue = val
         globalThis.addEventListener('pointermove', pointerMove)
@@ -69,7 +75,7 @@ export const Knob: FC<KnobProps> = ({
         globalThis.addEventListener('touchend', pointerUp)
     }
 
-    const pointerMove = ({clientY}: PointerEvent) => {
+    const pointerMove = ({ clientY }: PointerEvent) => {
         const valueDiff = (max - min) * (clientY - startY) / pixelRange
         setVal(clamp(startValue - valueDiff, min, max))
     }
@@ -81,6 +87,7 @@ export const Knob: FC<KnobProps> = ({
     }
 
     return (
+        <div style={knobContainerStyle}>
             <div style={knobStyle} onPointerDown={pointerDown} onDoubleClick={() => setVal(startVal)}>
                 <svg overflow='visible' width={diameter} height={diameter}>
                     <g>
@@ -90,7 +97,7 @@ export const Knob: FC<KnobProps> = ({
                             cy={diameter / 2}
                             cx={diameter / 2}
                             fill={color}
-                            stroke="#aaa"
+                            stroke="#888"
                             strokeWidth="1.5px"
                         />
                         <line
@@ -107,5 +114,6 @@ export const Knob: FC<KnobProps> = ({
                     </g>
                 </svg>
             </div>
+        </div>
     )
 }
