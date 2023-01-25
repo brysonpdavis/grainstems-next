@@ -237,6 +237,7 @@ li {
   text-shadow: 0px 0px 10px var(--electric-blue-shadow);
   box-shadow: 0px 0px 10px var(--electric-blue-shadow), inset 0px 0px 10px var(--electric-blue-shadow);
   font-family: Digital;
+  line-height: 1;
 }
 
 .stem-button:hover {
@@ -298,5 +299,5 @@ li {
 .reverse-container {
   display: flex;
   justify-content: center;
-  
+  margin-top: 6rem;
 }

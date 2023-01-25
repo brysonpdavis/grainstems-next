@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Stem } from "@prisma/client";
+import type { Stem } from "@prisma/client";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const sortStemsByPriority = (a: Stem, b: Stem) => {

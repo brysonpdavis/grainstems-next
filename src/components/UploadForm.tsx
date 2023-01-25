@@ -2,8 +2,12 @@ import React, { type FormEvent, useState } from 'react'
 import type { Stem } from '@prisma/client'
 import { api } from '../utils/api'
 
+type UploadFormProps = {
+    stems?: Stem[]
+    refetchStems: () => Promise<any>
+}
 
-export const UploadForm: React.FC<{stems?: Stem[]}> = ({stems}) => {
+export const UploadForm: React.FC<UploadFormProps> = ({stems, refetchStems}) => {
     type UploadStage = "before" | "during" | "after" | "error"
 
     const [uploadStage, setUploadStage] = useState<UploadStage>("before")
@@ -49,6 +53,7 @@ export const UploadForm: React.FC<{stems?: Stem[]}> = ({stems}) => {
                 description: uploadDescription 
             }))
             .then(() => setUploadStage('after'))
+            .then(refetchStems)
             .catch(err => {setUploadStage('error'); console.error(err)})
     }
 

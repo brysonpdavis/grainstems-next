@@ -50,7 +50,7 @@ export const Knob: FC<KnobProps> = ({
         transform: `rotate(calc(${rotation} * 1rad))`,
         transformOrigin: '50% 50%',
         overflow: 'visible',
-        boxShadow: `0 0 60px -20px ${lineColor}`,
+        // boxShadow: `0 0 60px -20px ${lineColor}`,
         borderRadius: '50%',
         width: 'min-content',
         marginLeft: 'auto',
@@ -90,6 +90,8 @@ export const Knob: FC<KnobProps> = ({
                             cy={diameter / 2}
                             cx={diameter / 2}
                             fill={color}
+                            stroke="#aaa"
+                            strokeWidth="1.5px"
                         />
                         <line
                             stroke={lineColor}
@@ -100,6 +102,7 @@ export const Knob: FC<KnobProps> = ({
                             x2={diameter / 2}
                             y1={0}
                             x1={diameter / 2}
+                            filter={`drop-shadow(0 0 14px ${lineColor})`}
                         />
                     </g>
                 </svg>

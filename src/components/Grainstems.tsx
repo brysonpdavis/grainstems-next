@@ -29,7 +29,7 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
     }
 
 
-    const { data: stems } = api.stems.getAll
+    const { data: stems, refetch: refetchStems } = api.stems.getAll
     .useQuery(undefined, {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
@@ -109,7 +109,7 @@ export const Grainstems: FC<GrainstemsProps> = ({ audioObject, isLoaded }) => {
             </Paper>
             <Dialog open={uploadEnabled} onClose={() => setUploadEnabled(false)}>
                 <DialogContent sx={{ background: 'black' }}>
-                    <UploadForm stems={stems} />
+                    <UploadForm stems={stems} refetchStems={refetchStems} />
                 </DialogContent>
             </Dialog>
         </>
