@@ -35,7 +35,7 @@ export const Visualizer: FC<VisualizerTypes> = ({ audioObject }) => {
         adjustFreqBandStyle(amplitudeArray)
     }
 
-    let interval: NodeJS.Timer
+    let interval: NodeJS.Timeout
 
     const handleStartButtonClick = () => {
         interval = setInterval(() => requestAnimationFrame(getFrequencyData), 33.333) // 30 fps
